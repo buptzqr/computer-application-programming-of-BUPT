@@ -65,7 +65,7 @@ int main(){
 		wordsNum++;
 		fgets(strLine, 1024, fp1);  //∂¡»°“ª––
 		int num=0;
-		while (strLine[num] != '\n'){
+		while (strLine[num] != '\n'&& strLine[num]!='\0'){
 			num++;
 		}
 		char* position = myPool;
