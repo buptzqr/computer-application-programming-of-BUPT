@@ -57,13 +57,14 @@ int main(){
 		while (position->ptr){
 			position = position->ptr;
 		}
-		Node* node=(Node*)malloc(sizeof(Node));
+		Node* node = (Node*)bupt_malloc(sizeof(Node));
 		node->ptr = NULL;
 		node->str = NULL;
-		node->str = (char*)bupt_malloc(i);
+		node->str = (char*)bupt_malloc(i+1);
 		for (int j = 0; j < i; j++){
 			node->str[j] = strLine[j];
 		}
+		node->str[i] = '\0';
 		position->ptr = node;
 
 	}
@@ -88,6 +89,8 @@ int main(){
 			str2int = str2int * 131 + (int)(strLine[i]);
 			i++;
 		}
+		if (strLine[i] == '\n')
+			strLine[i] = '\0';
 		int index = str2int % 4999;
 		if (!hashTable[index]->ptr){
 			continue;;
@@ -96,16 +99,21 @@ int main(){
 			Node* pos = hashTable[index]->ptr;
 			while (pos){
 				int flag = 0;
-				for (flag = 0; flag < i; flag++){
-					if (byte_cmp(strLine[flag], *((pos->str)+flag))){
-						pos = pos->ptr;
+				if (strlen(strLine) == strlen(pos->str)){
+					for (flag = 0; flag < i; flag++){
+						if (byte_cmp(strLine[flag], *((pos->str) + flag))){
+							pos = pos->ptr;
+							break;
+						}
+					}
+					if (flag == i){
+						printf("%s yes\n", strLine);
+						wordsSuccess++;
 						break;
 					}
 				}
-				if (flag == i){
-					printf("%s yes\n", strLine);
-					wordsSuccess++;
-					break;
+				else{
+					pos = pos->ptr;
 				}
 			}
 			
@@ -118,4 +126,5 @@ int main(){
 	printf("words sucdess:%d\n", wordsSuccess);
 	cin.get();
 	return 0;
+
 }
